@@ -1,0 +1,299 @@
+Login.jsp
+<html><head></head>
+ <br>
+ <body background="dimages/d4.jpg"> 
+ <center><h1>Login Here </h1>
+                    <br>
+                  
+                        <form action="checkLogin.jsp" method="post">
+                            <table>
+                                <tr>
+                                <td>User Id</td>
+                                <td><input name="u"></td>
+                                </tr>
+                                <tr>
+                                <td>Password</td>
+                                <td><input type="password" name="p"></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2"><input type="submit" value="LOGIN"></td>
+                                </tr>
+                                
+                            
+                            </table>
+                        </form>
+                    <br/>
+                    <br/>
+                    <a href="mainjsp.jsp">CLICK HERE TO GO TO HOME PAGE</a>
+ </center>
+                        </body>
+                        
+
+                    </html>
+Aboutus.jsp
+<html>
+    <head>
+        
+        <link href="style.css" rel="stylesheet">
+        
+        
+    </head>
+    <body>
+
+        <div id="w">
+            <div id="h">
+                <img src="dimages/d2.jpg">
+            </div>
+
+            <div id="bd">
+
+                <div id="l">
+                     <a href="aim.jsp">AIM</a>
+                    <a href="rules.jsp">RULES</a>
+                    <a href="facilities.jsp">FACILITIES</a>
+                    <a href="punishment.jsp">PUNISHMENT</a>
+                     <a href="mainjsp.jsp">LOGOUT</a>
+                  <script language="JavaScript">
+var i = 0;
+var path = new Array();
+ 
+// LIST OF IMAGES
+path[0] = "images/8.jpg";
+path[1] = "images/9.jpg";
+path[2] = "images/10.jpg";
+path[3] = "images/11.jpg";
+function swapImage()
+{
+   document.slide.src = path[i];
+   if(i < path.length - 1) i++; else i = 0;
+   setTimeout("swapImage()",3000);
+}
+window.onload=swapImage;
+</script>
+<img height="300" name="slide" src="images/8.jpg" width="300" /> <br>
+
+                  
+                </div>
+
+                <div id="r">
+                     
+                    <center><h1 style="color:maroon; font-size:35pt;font-family:Elephant;font-weight:bolder">ABOUT DAYBOARDING</h1></center>
+                    <br /><br/>
+                      <ul style="color:black; font-size:17pt;font-family:Times New Roman;"><li> This is a DAYBOARDING AUTOMATION SYSTEM which every possible 
+                    facilities to the children and students living in dayboarding.
+                    <br>
+                          <li> It assign them a trainer which helps them in extra curricular activities like singing.
+                    dancing,football etc.
+                          <br>
+                          <li>They help them to opt future courses like MBA,B.TECH,MBBS etc.
+                          <br>
+                          <li>They also provide them courses and study material.
+                          </ul>
+                </div>
+
+            </div>
+            
+        </div>
+
+
+    </body>
+
+</html>
+Main.jsp
+<html>
+    <head><link href="style.css" rel="stylesheet"></head>
+    <body>
+        <div id="w">
+            <div id="h"><img src="dimages/d2.jpg"></div>
+            <div id="bd">
+                <div id="l">
+                    <a href="aboutus.jsp">ABOUT US</a>
+                    <a href="login.jsp">LOGIN</a>
+                   
+                    <a href="feedback.jsp">FEEDBACK</a>
+                    <a href="RHere.jsp">REGISTER</a>
+                    
+                    <h1 style="color:darkolivegreen; font-size:15pt;font-family:Times New Roman">CONTACT US</h1>
+                    <p style="color:darkblue; font-size:12pt;font-family:Times New Roman"> 115 Rajaji Puram<br />
+                        Near Maharaha Hotel<br />
+                        Lucknow-UP</strong><br />
+                        Email : admin@lotusMontessory.com<br>
+                        Contact Nos: 0522-274754,09233455445</p>
+                </div>
+                <div id="r">
+                    
+                    <br>
+                    <br>
+                    <marquee>    <center><h1 style="color:darkblue; font-size:30pt;font-family:Elephant;font-weight:bolder">DAYBOARDING AUTOMATION SYSTEM</h1></center></marquee>
+                    <br/><br/><br/><br/><br/>
+                    <marquee><img src="dimages/d.png"><img src="dimages/d12.png"><img src="dimages/d13.jpg"><img src="dimages/d14.jpg"><img src="dimages/d15.jpg">
+                    </marquee>
+                        </div></div>
+            </div>
+         </body>  
+  
+</html>
+Admin.jsp
+<%@page import="java.sql.ResultSet"%>
+<%@page import="java.sql.PreparedStatement"%>
+<%@page import="java.sql.DriverManager"%>
+<%@page import="java.sql.Connection"%>
+
+
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+    "http://www.w3.org/TR/html4/loose.dtd">
+<%
+    if (session.getAttribute("abc") == null) {
+        response.sendRedirect("login.jsp");
+    } else {
+        String a = session.getAttribute("abc").toString();
+        if (!a.equals("Admin")) {
+            response.sendRedirect("login.jsp");
+        }
+    }
+
+%>
+<html>
+    <head>
+        <link href="layout.css" rel="stylesheet">
+
+        <title>Fee Submission</title>
+    </head>
+    <body>
+        <div id="w">
+
+            <div id="h">
+                <img src="dimages/d5.png">
+            </div>
+            <div id="bd">
+
+                <div id="l">
+                    <%@include file="adminmenu.jsp" %>
+                </div>
+
+                <div id="r">
+                    <br>
+                    <center><h1>School At a Glance</h1></center>
+                    <div style='padding-left: 20px;'>
+                        
+                        <%
+                            Class.forName("oracle.jdbc.OracleDriver");
+
+                            Connection cn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:XE", "trg", "trg");
+
+                            PreparedStatement ps = cn.prepareStatement("select sum(fee) from fees");
+                            PreparedStatement ps1 = cn.prepareStatement("select count(*) from register");
+
+                            ResultSet rs = ps.executeQuery();
+                            ResultSet rs1 = ps1.executeQuery();
+                            rs.next();
+
+                            int a = rs.getInt(1);
+
+                            out.println(" Total Fee Submitted is " + a + "<br>");
+
+
+                            rs1.next();
+                            int b = rs1.getInt(1);
+
+                            out.println(" Total Registration  = " + b);
+
+
+
+
+                            cn.close();
+
+                        %>
+                        </div>
+                </div>
+
+            </div>
+            &copy School Admin Pvt Limited
+        </div>
+</body>
+</html>
+Deleteact.jsp
+<%@page import="java.sql.PreparedStatement"%>
+<%@page import="java.sql.Connection"%>
+<%@page import="java.sql.DriverManager"%>
+<%
+
+            String t1=  request.getParameter("t1");
+            
+            Class.forName("oracle.jdbc.OracleDriver");
+
+            Connection cn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:XE", "trg", "trg");
+             PreparedStatement ps= cn.prepareStatement("delete from  ceact where empid=?");
+             ps.setString(1,t1);
+             ps.executeUpdate();
+            int e= ps.executeUpdate();
+        String msg="";
+             
+            if (e==1)
+                msg="account deleted";
+        else
+                 msg="account deleted";
+             cn.close();
+
+   
+
+          %>
+ <!DOCTYPE html>
+<html>
+    <head>
+        <link href="layout.css" rel="stylesheet">
+       <title>
+           DELETE FEE</title>
+       <script>
+        function isNumber(evt) {
+                evt = (evt) ? evt : window.event;
+                var charCode = (evt.which) ? evt.which : evt.keyCode;
+                if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+                    return false;
+                }
+                return true;
+            }
+            </script>
+    </head>
+    <body>
+        <div id="w">
+
+          
+                <div id="h">
+                    <img src="dimages/d5.png">
+                </div>
+            <div id="bd">
+
+             <div id="l">
+                    <%@include file="cmenu.jsp" %>
+                </div>
+
+                <div id="r">
+                      <br><br><br>
+                      <center><b>DELETE ACCOUNT</b>
+                        <form name="inputForm">
+                        <table id="rounded-corner" border=0 align="center">
+                            <tr>
+                                    <td>Empid</td><td><input type=text name="t1" required placeholder="Enter Id" onkeypress="return isNumber(event)"></td>
+                                </tr>
+                           <center> <tr>
+                                <td colspan=2><input type=submit name='SUBMIT' value="SUBMIT"></td>
+                            </tr>
+                           </center>
+                        </table>
+                        </form>
+                        <%
+                        out.println(msg);
+                       
+                        %>
+                  <br>
+                    <a href="ceact.jsp">Click Here to Go back</a>
+                    </center>
+                </div>
+
+            </div>
+            
+        </div>
+</body>
+</html>
